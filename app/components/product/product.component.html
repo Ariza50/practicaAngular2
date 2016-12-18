@@ -1,0 +1,37 @@
+<div *ngIf="data">
+    <a [routerLink]="['/products', data.id]">
+        <img [src]="data.photos[0]" class="thumbnail" />
+    </a>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+    | Green Path                                                       |
+    |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+    | Un clic en el botón de compra debería enviar un evento al        |
+    | componente padre.                                                |
+    |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+    | Purple Path                                                      |
+    |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+    | Aplica el siguiente formato al precio del producto:              |
+    |   - 1 dígito mínimo (parte entera)                               |
+    |   - 2 dígitos mínimo y máximo (parte decimal)                    |
+    |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+    <button
+        class="button expanded"
+        [class.success]="data.state === 'selling'"
+        [class.secondary]="data.state === 'sold'"
+        (click)="detalleProducto(data)"
+        [routerLink]="['/products', data.id]">
+        <span *ngIf="data.state === 'selling'">
+            Comprar por {{ data.price | currency :'EUR' :true :'1.2-2'}}
+        </span>
+        <span *ngIf="data.state === 'sold'">
+            Ver detalles
+        </span>
+    </button>
+    <button class="button expanded"
+    (click)="filtrarUser(data)">
+        <i class="fa fa-search-plus" aria-hidden="true">Ver más de {{ data.seller.nick }}</i>
+    </button>
+</div>
